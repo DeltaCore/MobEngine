@@ -1,0 +1,12 @@
+# Blender v2.69 (sub 0) OBJ File: ''
+# www.blender.org
+mtllib landscape_test.mtl
+o Plane_Plane.001
+v 12.061670 0.155751 12.040648
+v -12.070890 0.155751 12.040648
+v 12.061670 0.155751 -12.091913
+v -12.070890 0.155751 -12.091913
+vn 0.000000 1.000000 0.000000
+usemtl Material.002
+s off
+f 2//1 1//1 3//1 4//1
