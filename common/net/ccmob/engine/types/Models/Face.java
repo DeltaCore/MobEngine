@@ -1,7 +1,6 @@
 package net.ccmob.engine.types.Models;
 
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
+import java.util.ArrayList;
 
 /**
  * 
@@ -9,132 +8,136 @@ import org.lwjgl.util.vector.Vector4f;
  * 
  */
 
-public class Face {
+public class Face implements Cloneable{
 
-	private Vector3f	normal, vertex, texture;
-	private Vector4f	vertex4f, texture4f, normals4f;
+	private ArrayList<FaceIndex> indecies = new ArrayList<FaceIndex>();
+		
+	private boolean has4indecies = false;
+	
+    /**
+     * @return the indecies
+     */
+    public ArrayList<FaceIndex> getIndecies() {
+    	return indecies;
+    }
+    
+    /**
+     * @param indecies the indecies to set
+     */
+    public void setIndecies(ArrayList<FaceIndex> indecies) {
+    	this.indecies = indecies;
+    }
 
-	private boolean	 normals	= true;
-	private boolean	 vector4f	= false;
+    public void addIndex(FaceIndex index){
+    	this.getIndecies().add(index);
+    	if(this.getIndecies().size() == 4){
+    		this.has4indecies = true;
+    	}
+    }
+    
+    public boolean is4f(){
+    	return has4indecies;
+    }
+    
+    @Override
+    protected Face clone() throws CloneNotSupportedException {
+        Face f = new Face();
+        f.has4indecies = has4indecies;
+        f.indecies = new ArrayList<FaceIndex>();
+        for(FaceIndex i : indecies){
+        	f.indecies.add(i.clone());
+        }
+        return f;
+    }
+    
+	public class FaceIndex implements Cloneable{
+		
+		private int vertexIndex, normalIndex, textureIndex;
+		private boolean normals = false;
+		private boolean textures = false;
+		
+        public FaceIndex() {
+	        this.setNormalIndex(0);
+	        this.setTextureIndex(0);
+	        this.setVertexIndex(0);
+        }
 
-	private boolean	 _4f	    = false;
+        /**
+         * @return the vertexIndex
+         */
+        public int getVertexIndex() {
+        	return vertexIndex;
+        }
 
-	public Face(Vector3f vertex, Vector3f texture, Vector3f normal) {
-		this.setVertex(vertex);
-		this.setTexture(texture);
-		this.setNormal(normal);
-	}
+	
+        /**
+         * @return the normalIndex
+         */
+        public int getNormalIndex() {
+        	return normalIndex;
+        }
 
-	public Face(Vector3f vertex, Vector3f texture) {
-		this.setVertex(vertex);
-		this.setTexture(texture);
-		normals = false;
-	}
+		
+        /**
+         * @return the textureIndex
+         */
+        public int getTextureIndex() {
+        	return textureIndex;
+        }
 
-	public Face(Vector4f vertex, Vector4f textureCoord) {
-		this.setTexture4f(textureCoord);
-		this.setVertex4f(vertex);
-		normals = false;
-		vector4f = true;
-		this.set_4f(true);
-	}
+		
+        /**
+         * @param vertexIndex the vertexIndex to set
+         */
+        public void setVertexIndex(int vertexIndex) {
+        	this.vertexIndex = vertexIndex;
+        }
 
-	public Face(Vector4f vertex4f, Vector4f normals4f, Vector4f textureCoord4f) {
-		this.setTexture4f(textureCoord4f);
-		this.setVertex4f(vertex4f);
-		this.setNormals4f(normals4f);
-		normals = false;
-		vector4f = true;
-		this.set_4f(true);
-	}
+	
+        /**
+         * @param normalIndex the normalIndex to set
+         */
+        public void setNormalIndex(int normalIndex) {
+        	this.normalIndex = normalIndex;
+        	this.normals = true;
+        }
 
-	public Vector3f getNormal() {
-		return normal;
-	}
 
-	public void setNormal(Vector3f normal) {
-		this.normal = normal;
-	}
+        /**
+         * @param textureIndex the textureIndex to set
+         */
+        public void setTextureIndex(int textureIndex) {
+        	this.textureIndex = textureIndex;
+        	this.textures = true;
+        }
 
-	public Vector3f getVertex() {
-		return vertex;
-	}
+		
+        /**
+         * @return the normals
+         */
+        public boolean hasNormals() {
+        	return normals;
+        }
 
-	public void setVertex(Vector3f vertex) {
-		this.vertex = vertex;
-	}
-
-	public Vector3f getTexture() {
-		return texture;
-	}
-
-	public void setTexture(Vector3f texture) {
-		this.texture = texture;
-	}
-
-	public Vector4f getVertex4f() {
-		return vertex4f;
-	}
-
-	public void setVertex4f(Vector4f vertex4f) {
-		this.vertex4f = vertex4f;
-	}
-
-	public Vector4f getTexture4f() {
-		return texture4f;
-	}
-
-	public void setTexture4f(Vector4f texture4f) {
-		this.texture4f = texture4f;
-	}
-
-	public boolean hasNormals() {
-		return normals;
-	}
-
-	public boolean isVector4f() {
-		return vector4f;
-	}
-
-	public Vector4f getNormals4f() {
-		return normals4f;
-	}
-
-	public void setNormals4f(Vector4f normals4f) {
-		this.normals4f = normals4f;
-	}
-
-	public boolean is4f() {
-		return _4f;
-	}
-
-	private void set_4f(boolean _4f) {
-		this._4f = _4f;
-	}
-
-	@Override
-	public String toString() {
-		String ret = "";
-		if (is4f()) {
-			ret += "Textures : ";
-			ret += this.getTexture4f().toString() + "\n";
-			if (this.normals) {
-				ret += "Normals : ";
-				ret += this.getNormals4f().toString() + "\n";
-			}
-			ret += "Vertecies : ";
-			ret += this.getVertex4f().toString() + "\n";
-		} else {
-			ret += "Textures : ";
-			ret += this.getTexture().toString() + "\n";
-			if (this.normals) {
-				ret += "Normals : ";
-				ret += this.getNormal().toString() + "\n";
-			}
-			ret += "Vertecies : ";
-			ret += this.getVertex().toString() + "\n";
-		}
-		return ret;
+		
+        /**
+         * @return the textures
+         */
+        public boolean hasTexturCoords() {
+        	return textures;
+        }
+		
+        @Override
+        protected FaceIndex clone() throws CloneNotSupportedException {
+            FaceIndex index = new FaceIndex();
+            index.setNormalIndex(getNormalIndex());
+            index.setTextureIndex(getTextureIndex());
+            index.setVertexIndex(getVertexIndex());
+            index.normals = normals;
+            index.textures = textures;
+            return index;
+        }
+        
 	}
 
 }
