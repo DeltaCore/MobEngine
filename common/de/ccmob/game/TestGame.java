@@ -3,8 +3,7 @@ package de.ccmob.game;
 import net.ccmob.engine.core.MobEngine;
 import net.ccmob.engine.types.Dimension;
 import net.ccmob.engine.types.WindowConfiguration;
-import net.ccmob.engine.types.Models.ObjModel;
-import net.ccmob.engine.types.Models.Loader.ObjLoader;
+import net.ccmob.engine.types.Models.ModelQuad;
 
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.Texture;
@@ -13,18 +12,16 @@ public class TestGame extends MobEngine {
 
 	public static TestGame	instance;
 	Texture	               t;
-	ObjLoader	             modelLoader	       = new ObjLoader();
-	ObjModel	             level;
-
+	ModelQuad level;
+	
 	WindowConfiguration	   windowConfiguration	= new WindowConfiguration(new Dimension(800, 600), 180);
 
 	public TestGame() {
 		windowConfiguration.enableAntiAlising();
 		this.init("Test", windowConfiguration);
 		this.setHandleRootUpdate(true);
-		level = new ObjModel("house.obj");
+		level = new ModelQuad("test_house.obj");
 		level.getTransform().setPosition(new Vector3f(0, 0, -12));
-		level.debug = true;
 		this.getRootObject().addChild(level);
 	}
 
