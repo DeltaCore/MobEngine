@@ -1,5 +1,7 @@
 package net.ccmob.engine.types.Models.Materials;
 
+import java.io.InputStream;
+
 import net.ccmob.engine.core.MobEngine;
 
 import org.newdawn.slick.opengl.Texture;
@@ -24,21 +26,27 @@ public class Material {
 	public Material(String name, String path) {
 		this.setName(name);
 		try {
-			this.setTexture(TextureLoader.getTexture("PNG", MobEngine.class.getResourceAsStream(path)));
+			Class<MobEngine> cls = MobEngine.class;
+			ClassLoader cLoader = cls.getClassLoader();
+			InputStream i = cLoader.getResourceAsStream("textures/" + path);
+			this.setTexture(TextureLoader.getTexture("PNG", i));
 		} catch (Exception e) {
 			System.err.println("Could't find Texture : " + path + ". I got this Exception : " + e.getMessage());
 		}
 	}
-
+	
 	public Texture getTexture() {
 		return texture;
 	}
-
+	
 	public void setTexture(String path) {
 		this.setTexturePath(path);
 		try {
 			System.out.println("Texture path : " + path);
-			this.setTexture(TextureLoader.getTexture("PNG", MobEngine.class.getResourceAsStream(path)));
+			Class<MobEngine> cls = MobEngine.class;
+			ClassLoader cLoader = cls.getClassLoader();
+			InputStream i = cLoader.getResourceAsStream("textures/" + path);
+			this.setTexture(TextureLoader.getTexture("PNG", i));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

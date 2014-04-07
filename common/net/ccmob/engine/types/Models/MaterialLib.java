@@ -23,13 +23,13 @@ public class MaterialLib {
 	}
 
 	public Material getMaterial(String name) {
-		System.out.println("Searching for material with name " + name);
+		//System.out.println("Searching for material with name " + name);
 		for (int i = 0; i < materials.size(); i++) {
 			if (materials.get(i).getName().equals(name)) {
-				System.out.println("Yes ! - " + materials.get(i).getName());
+				//System.out.println("Yes ! - " + materials.get(i).getName());
 				return materials.get(i);
 			} else {
-				System.out.println("Damn it ! - " + materials.get(i).getName());
+				//System.out.println("Damn it ! - " + materials.get(i).getName());
 			}
 		}
 		return null;

@@ -187,6 +187,8 @@ public abstract class MobEngine {
 
 	public abstract void input();
 
+	public abstract void cleanup();
+	
 	public void start() {
 		try {
 			this.createWindow();

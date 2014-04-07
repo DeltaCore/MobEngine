@@ -1,6 +1,7 @@
 package net.ccmob.engine.resource;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -52,4 +53,20 @@ public class ResourceLoader {
 		return list;
 	}
 
+	public static void listFiles(String path){
+		Class<MobEngine> cls = MobEngine.class;
+		ClassLoader cLoader = cls.getClassLoader();
+		InputStream i = cLoader.getResourceAsStream("textures");
+		BufferedReader r = new BufferedReader(new InputStreamReader(i));
+		String l;
+		try {
+	        while ((l = r.readLine()) != null) {
+	        	System.out.println(l);
+	        }
+	        i.close();
+        } catch (IOException e) {
+	        e.printStackTrace();
+        }
+	}
+	
 }
